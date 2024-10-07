@@ -9,6 +9,8 @@ class Piso extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'piso';
     protected $fillable = [
         "nombre",

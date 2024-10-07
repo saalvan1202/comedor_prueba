@@ -9,6 +9,8 @@ class Sala extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'sala';
     protected $fillable = [
         'nombre',

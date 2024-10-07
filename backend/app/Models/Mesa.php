@@ -9,6 +9,8 @@ class Mesa extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'mesa';
     protected $fillable = [
         'numero_mesa',

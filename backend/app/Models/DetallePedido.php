@@ -9,6 +9,8 @@ class DetallePedido extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'detalle_pedido';
     protected $fillable = [
         'descripcion',
