@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('piso', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre')->unique();
-            $table->string('descripcion');
-            $table->boolean('estado')->default(true);
-            $table->timestamps();
+        Schema::table('piso', function (Blueprint $table) {
+            $table->dropColumn(['created_at', 'updated_at']);
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('piso');
+        Schema::table('piso', function (Blueprint $table) {
+            $table->timestamps();
+        });
     }
 };
