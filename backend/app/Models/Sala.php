@@ -17,6 +17,7 @@ class Sala extends Model
         'descripcion',
         'tipo_sala',
         'aforo',
-        'estado'
+        'estado',
+        'id_piso'
     ];
 }
