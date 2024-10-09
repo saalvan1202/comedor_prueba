@@ -16,5 +16,8 @@ class DetallePedido extends Model
         'descripcion',
         'cantidad',
         'precio_unitario',
+        'id_mesa',
+        'id_pedido',
+        'id_producto',
     ];
 }

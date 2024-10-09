@@ -7,3 +7,4 @@ require __DIR__.'/api/productosRoutes.php';
 require __DIR__.'/api/pisoRoutes.php';
 require __DIR__.'/api/salaRoutes.php';
 require __DIR__.'/api/mesaRoutes.php';
+require __DIR__.'/api/detallePedidoRoutes.php';
