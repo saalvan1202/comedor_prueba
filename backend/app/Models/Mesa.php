@@ -16,6 +16,7 @@ class Mesa extends Model
         'numero_mesa',
         'tipo_mesa',
         'capacidad',
-        'estado'
+        'estado',
+        'id_sala'
     ];
 }
