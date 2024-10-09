@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 abstract class Controller
@@ -12,11 +10,13 @@ abstract class Controller
     protected $model;
 
     public function getItems() {
+        $className = strtolower(class_basename($this->model)); // Calcular una vez
+
         $items = $this->model::where('estado', true)->get();
 
         if ($items->isEmpty()) {
             $data = [
-                "message" => "No se encontró ningún " . strtolower(class_basename($this->model)),
+                "message" => "No se encontró ningún " . $className,
                 "status" => 204,
                 "data" => []
             ];
@@ -24,7 +24,7 @@ abstract class Controller
         }
 
         $data = [
-            "message" => ucfirst(strtolower(class_basename($this->model))) . "s encontrados correctamente",
+            "message" => $className . "s encontrados correctamente",
             "data" => $items,
             "status" => 200,
         ];
@@ -33,18 +33,20 @@ abstract class Controller
     }
 
     public function findItemById($id) {
+        $className = strtolower(class_basename($this->model)); // Calcular una vez
+
         $item = $this->model::find($id);
 
         if (!$item) {
             $data = [
-                "message" => ucfirst(strtolower(class_basename($this->model))) . " con el id no fue encontrado",
+                "message" => $className . " con el id no fue encontrado",
                 "status" => 404,
             ];
             return response()->json($data, 404);
         }
 
         $data = [
-            "message" => ucfirst(strtolower(class_basename($this->model))) . " encontrado correctamente",
+            "message" => $className . " encontrado correctamente",
             "data" => $item,
             "status" => 200,
         ];
@@ -52,8 +54,9 @@ abstract class Controller
         return response()->json($data, 200);
     }
 
-    public function createItem(Request $request, array $validationRules)
-    {
+    public function createItem(Request $request, array $validationRules) {
+        $className = strtolower(class_basename($this->model)); // Calcular una vez
+
         // Validar los datos entrantes
         $validate = Validator::make($request->all(), $validationRules);
 
@@ -76,26 +79,28 @@ abstract class Controller
         // Manejo de error en la creación del registro
         if (!$item) {
             return response()->json([
-                "message" => "Hubo un error al crear el " . strtolower(class_basename($this->model)),
+                "message" => "Hubo un error al crear el " . $className,
                 "status" => 500,
             ], 500);
         }
 
         // Retornar respuesta de éxito
         return response()->json([
-            "message" => ucfirst(strtolower(class_basename($this->model))) . " creado correctamente",
+            "message" => $className . " creado correctamente",
             "data" => $item,
             "status" => 201
         ], 201);
     }
 
     public function updateItem(Request $request, $id, array $validationRules) {
+        $className = strtolower(class_basename($this->model)); // Calcular una vez
+
         // Buscar el modelo
         $item = $this->model::find($id);
 
         if (!$item) {
             $data = [
-                "message" => ucfirst(strtolower(class_basename($this->model))) . " no fue encontrado",
+                "message" => $className . " no fue encontrado",
                 "status" => 404,
             ];
             return response()->json($data, 404);
@@ -117,7 +122,7 @@ abstract class Controller
         $item->update($request->all());
 
         $data = [
-            "message" => ucfirst(strtolower(class_basename($this->model))) . " editado correctamente",
+            "message" => $className . " editado correctamente",
             "data" => $item,
             "status" => 200,
         ];
@@ -125,12 +130,14 @@ abstract class Controller
     }
 
     public function patchItem(Request $request, $id, array $validationRules) {
+        $className = strtolower(class_basename($this->model)); // Calcular una vez
+
         // Buscar el modelo
         $item = $this->model::find($id);
 
         if (!$item) {
             $data = [
-                "message" => ucfirst(strtolower(class_basename($this->model))) . " no fue encontrado",
+                "message" => $className . " no fue encontrado",
                 "status" => 404,
             ];
             return response()->json($data, 404);
@@ -158,7 +165,7 @@ abstract class Controller
         $item->save();
 
         $data = [
-            "message" => ucfirst(strtolower(class_basename($this->model))) . " fue editado correctamente",
+            "message" => $className . " fue editado correctamente",
             "data" => $item,
             "status" => 200,
         ];
@@ -166,12 +173,14 @@ abstract class Controller
     }
 
     public function deleteItem($id) {
+        $className = strtolower(class_basename($this->model)); // Calcular una vez
+
         // Buscar el modelo por ID
         $item = $this->model::find($id);
 
         if (!$item) {
             $data = [
-                "message" => ucfirst(strtolower(class_basename($this->model))) . " no fue encontrado",
+                "message" => $className . " no fue encontrado",
                 "status" => 404,
             ];
             return response()->json($data, 404);
@@ -182,7 +191,7 @@ abstract class Controller
         $item->save();
 
         $data = [
-            "message" => ucfirst(strtolower(class_basename($this->model))) . " eliminado correctamente",
+            "message" => $className . " eliminado correctamente",
             "data" => $item,
             "status" => 200,
         ];
