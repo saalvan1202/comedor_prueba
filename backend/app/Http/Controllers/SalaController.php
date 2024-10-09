@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Sala;
 
-class SalaController extends BaseController
+class SalaController extends Controller
 {
     public function __construct() {
         $this->model = Sala::class;

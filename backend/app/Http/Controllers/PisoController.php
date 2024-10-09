@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Piso;
 
-class PisoController extends BaseController
+class PisoController extends Controller
 {
     public function __construct() {
         $this->model = Piso::class;

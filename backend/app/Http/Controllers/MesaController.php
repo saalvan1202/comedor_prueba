@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Mesa;
 
-class MesaController extends BaseController
+class MesaController extends Controller
 {
     public function __construct() {
         $this->model = Mesa::class;

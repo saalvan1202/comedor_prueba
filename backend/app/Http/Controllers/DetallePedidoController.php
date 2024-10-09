@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DetallePedido;
 
-class DetallePedidoController extends BaseController
+class DetallePedidoController extends Controller
 {
     public function __construct() {
         $this->model = DetallePedido::class;
