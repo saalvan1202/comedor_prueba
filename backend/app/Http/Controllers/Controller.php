@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -11,9 +12,7 @@ abstract class Controller
     protected $model;
 
     public function getItems() {
-        $items = collect($this->model::all())->filter(function($value){
-            return $value["estado"] == true;
-        });
+        $items = $this->model::where('estado', true)->get();
 
         if ($items->isEmpty()) {
             $data = [
@@ -53,41 +52,41 @@ abstract class Controller
         return response()->json($data, 200);
     }
 
-    public function createItem(Request $request, array $validationRules) {
-        Log::info($request->all());
-
+    public function createItem(Request $request, array $validationRules)
+    {
         // Validar los datos entrantes
         $validate = Validator::make($request->all(), $validationRules);
 
         if ($validate->fails()) {
-            $data = [
+            return response()->json([
                 "message" => "Hubo un error con los datos ingresados",
                 "error" => $validate->errors(),
                 "status" => 404,
-            ];
-            return response()->json($data, 404);
+            ], 404);
         }
 
-        // Si no se pasa un valor de 'estado', se asigna true por defecto
-        $request->merge(["estado" => $request->input("estado", true)]);
+        // Crear el nuevo registro con estado true por defecto si no está presente
+        $item = $this->model::create(
+            array_merge(
+                $request->all(),
+                ['estado' => $request->input('estado', true)]
+            )
+        );
 
-        // Crear el nuevo registro
-        $item = $this->model::create($request->all());
-
+        // Manejo de error en la creación del registro
         if (!$item) {
-            $data = [
+            return response()->json([
                 "message" => "Hubo un error al crear el " . strtolower(class_basename($this->model)),
                 "status" => 500,
-            ];
-            return response()->json($data, 500);
+            ], 500);
         }
 
-        $data = [
+        // Retornar respuesta de éxito
+        return response()->json([
             "message" => ucfirst(strtolower(class_basename($this->model))) . " creado correctamente",
             "data" => $item,
             "status" => 201
-        ];
-        return response()->json($data, 201);
+        ], 201);
     }
 
     public function updateItem(Request $request, $id, array $validationRules) {
