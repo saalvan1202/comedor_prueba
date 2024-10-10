@@ -1,47 +1,43 @@
+<template>
+  <RouterView />
+</template>
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref, computed } from "vue";
+import { RouterLink, RouterView } from "vue-router";
+//VAIRABLE DE CONTENIDO DENÁMICO
+const visible = ref(true);
+const miNombre = "Shande Andres Alvan Rios";
+const miEdad = 20;
+let color = ref("rojo");
+const comprobacion = computed(() => {
+  return constador.value === 0;
+});
+const mensage = "Hola Mundo!";
+//Las varaibles reactivas son las que cambian con el tiempo, o van dirigidos a eventos
+let constador = ref(0);
+function contador() {
+  constador.value++;
+  visible.value = constador.value === 0;
+  if (constador.value > 6) {
+    color.value = "azul";
+  }
+}
+//Para modificr el valor de una variavle reactiva, tenemos que poner value
+
+function Saludar() {
+  return console.log(mensage);
+}
 </script>
 
-<template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
-</template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+<style scoped></style>
+<!-- <h1 v-bind:style="color">Nombre: {{ miNombre }}</h1>
+  <h1 :style="color">Nombre: {{ miNombre }}</h1>
+  <h2>Edad: {{ miEdad }}</h2>
+  <h3 :class="color">Contador: {{ constador }}</h3>
+  <p v-if="constador > 6">Sigue dandole papi</p>
+  <p v-else-if="constador > 3">Masomenos papi</p>
+  <p v-else>Muestrame lo que tienes</p>
+  <p v-show="comprobacion">Holo papi</p>
+  <button v-on:click="contador">Click</button>
+  <button @click="Saludar">Click</button> 
+  <Productos />-->
